@@ -7,12 +7,7 @@ function fish_prompt
     set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
   end
   if not set -q __fish_prompt_char
-    switch (id -u)
-      case 0
-        set -g __fish_prompt_char \u276f\u276f
-      case '*'
-        set -g __fish_prompt_char »
-    end
+    set -g __fish_prompt_char \ue602
   end
 
   # Setup colors
@@ -29,11 +24,11 @@ function fish_prompt
   set -g __fish_git_prompt_showcolorhints true
 
   # Color prompt char red for non-zero exit status
-  set -l pcolor $bpurple
+  set -l pwd (prompt_pwd)
+  set -l pcolor $bcyan
   if [ $last_status -ne 0 ]
     set pcolor $bred
   end
 
-  # Bottom
-  echo -n $pcolor$__fish_prompt_char $normal
+  printf "$cyan$USER$normal@$yellow$__fish_prompt_hostname$normal $pwd $pcolor$__fish_prompt_char$normal "
 end
